@@ -88,16 +88,20 @@ def write_entry(path: str) -> int:
     return len(data)
 
 
+def _run_verify() -> int:
+    text = format_entry()
+    validate_entry(text)
+    print(
+        f"entry valid: {len(text)} characters, "
+        f"{len(text.encode('utf-8'))} bytes, single line"
+    )
+    return 0
+
+
 def main(argv=None) -> int:
     args = _parse_args(argv)
     if args.verify:
-        text = format_entry()
-        validate_entry(text)
-        print(
-            f"entry valid: {len(text)} characters, "
-            f"{len(text.encode('utf-8'))} bytes, single line"
-        )
-        return 0
+        return _run_verify()
     size = write_entry(args.output)
     print(f"wrote {size} bytes to {args.output}")
     return 0
